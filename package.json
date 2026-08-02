@@ -1,0 +1,12 @@
+{
+  "dependencies": {
+    "express": "^5.2.1",
+    "mongoose": "^9.9.1",
+    "nanoid": "^6.0.0",
+    "nodemon": "^3.1.14"
+  },
+  "scripts": {
+    "start": "nodemon index.js",
+    "dev": "node --watch index.js"
+  }
+}
