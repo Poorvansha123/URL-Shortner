@@ -1,9 +1,12 @@
 const express=require("express");
 const {connectToMongoDB}=require("./connect")
 const path=require("path")
+const cookieParser=require("cookie-parser")
 const URL=require("./models/url")
 const urlRoute=require("./routes/url")
 const staticRoute=require("./routes/staticRouter")
+const userRoute=require("./routes/user")
+const {restrictToLoggedinUserOnly,checkAuth}=require("./middleware/auth")
 
 const app=express();
 const PORT=8001;
@@ -15,9 +18,11 @@ app.set("views",path.resolve("./views"))// teeling the path of my ejs files
 
 app.use(express.json())//middleware 
 app.use(express.urlencoded({extended:false}))
+app.use(cookieParser())
 
-app.use("url",urlRoute)
-app.use("/",staticRoute)
+app.use("/url",restrictToLoggedinUserOnly,urlRoute)
+app.use("/",checkAuth,staticRoute)
+app.use("/user",userRoute)
 app.get('/:shortId',async(req,res)=>{
     const shortId=req.params.shortId;
 const entry=await URL.findOneAndUpdate(

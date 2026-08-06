@@ -9,6 +9,7 @@ await URL.create({
     shortId:shortID,
     redirectURL:body.url,
     visitHistory:[],
+    createdBy:req.user._id,
 })
 return res.render("home",{
     id:shortID,
